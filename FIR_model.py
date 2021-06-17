@@ -83,21 +83,20 @@ class Model:
         self.model.fit(x_train, y_train, verbose=self.verbosity)
         print('Accuracy on test data:', self.model.score(x_test, y_test, verbose=self.verbosity))
 
-    def rank(self, x_test: np.ndarray, y_test: np.ndarray, feats: np.ndarray) -> None:
+    def rank(self, x_test: np.ndarray, y_test: np.ndarray, feats: np.ndarray, show: int) -> None:
         """
         Performs feature ranking importance on the keras model and prints out important features.
 
         :param x_test: Numpy array of testing features.
         :param y_test: Numpy array of testing labels.
         :param feats: Numpy array consisting of feature names.
+        :param show: integer to show top N features.
         :return: None
         """
         # this function does all of the work for this
         r = permutation_importance(self.model, x_test, y_test)
         print('Most Important Features:')
-        for i in r.importances_mean.argsort()[::-1]:
-            # threshold for what is printed as relevant
-            if r.importances_mean[i] - 2 * r.importances_std[i] > 0:
-                print(f"- {feats[i]:<8}: "
-                      f"{r.importances_mean[i]:.3f}"
-                      f" +/- {r.importances_std[i]:.3f}")
+
+        imp = r.importances_mean
+        ids = np.argsort(imp)
+        print(feats[ids[-show:-1]])  # top 5 features
