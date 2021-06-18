@@ -43,24 +43,15 @@ X = scale.transform(X)
 # print(X[0])
 y = dataset['target']
 
-# scale = MinMaxScaler(feature_range=(0, 1))
-# scale.fit(X)
-# X = scale.transform(X)
-# print(X[0])
+X = add_noise(X, features, 5, 20, random_state=0)
+scale = StandardScaler()
+scale.fit(X)
+X = scale.transform(X)
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=1 / 3, random_state=0)
 n_test_samples = len(X_test)
 
 # use the model
 model = Model(10, 15, 12, n_test_samples)
-# model.evaluate(X_train, y_train, X_test, y_test)
-# model.rank(X_train, y_train, features)
-
-perm = combinations([0, 1, 2, 3, 4, 5, 6, 7, 8, 9], 5)
-perm = list(perm)
-
-# add noise
-X_test = add_noise(X_test, features, 5, 10, random_state=0)
-
 model.evaluate(X_train, y_train, X_test, y_test)
-model.rank(X_test, y_test, features, 5)
+model.rank(X_test, y_test, features, 10)
