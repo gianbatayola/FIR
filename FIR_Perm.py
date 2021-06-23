@@ -19,10 +19,9 @@
 
 from sklearn.datasets import load_breast_cancer
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler, MinMaxScaler
-from FIR_model import Model
-from FIR_functions import add_noise
-from itertools import combinations
+from sklearn.preprocessing import StandardScaler
+from FIR_Perm_model import Model
+from FIR_Perm_functions import add_noise
 
 import numpy as np
 
